@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    <script src="~/Scripts/jquery.cookie.js"></script>
+   
+    <link href="~/Content/skin_0.css"  rel="stylesheet" id="cssfile" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/cookie")
+</head>
+<body>
+    <script type="text/javascript">
+        $(function () {
+            $("#nav").load("/home/navigation");
+            $("#jnCatalog").load("/home/catalog");
+        });
+    </script>
+    <header>
+        <div class="contWidth">
+            <a class="logo" href="~/Home/Index">
+                <img src="@Url.Content("~/Content/images/logo.png")" alt="峰连商城" /></a>
+            <div class="search">
+                <input type="text" id="inputSearch" class="" value="请输入商品名称" />
+            </div>
+            <ul id="skin">
+                <li id="skin_0" title="蓝色" class="selected">蓝色</li>
+                <li id="skin_1" title="紫色">紫色</li>
+                <li id="skin_2" title="红色">红色</li>
+                <li id="skin_3" title="天蓝色">天蓝色</li>
+                <li id="skin_4" title="橙色">橙色</li>
+                <li id="skin_5" title="淡绿色">淡绿色</li>
+            </ul>
+            <span style="float:right;width:40px;height:40px;line-height:40px;"><a href="/Admin/Index" style="text-decoration:none;color:black;"><span>管理员</span></a></span>
+            <div id="nav" class="mainNav">
+            
+            </div>
+        </div>
+    </header>
+
+    <div id="content">
+        <div class="janeshop">
+            <div id="jnCatalog">
+            </div>
+            @RenderSection("featured", required: false)
+            <section>
+                @RenderBody()
+            </section>
+        </div>
+    </div>
+
+    <footer>
+        Copyright &copy; 2019 - 2020 FLShop Inc.
+    </footer>
+
+    @Scripts.Render("~/bundles/custom")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SHOPModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="SHOPEntities" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="Admin" EntityType="SHOPModel.Admin" />
+    <EntitySet Name="Brand" EntityType="SHOPModel.Brand" />
+    <EntitySet Name="ProductImg" EntityType="SHOPModel.ProductImg" />
+    <EntitySet Name="Products" EntityType="SHOPModel.Products" />
+    <EntitySet Name="ProductType" EntityType="SHOPModel.ProductType" />
+    <EntitySet Name="ProductTypeF" EntityType="SHOPModel.ProductTypeF" />
+    <EntitySet Name="ProductTypeS" EntityType="SHOPModel.ProductTypeS" />
+    <EntitySet Name="vw_Product" EntityType="SHOPModel.vw_Product" />
+    <AssociationSet Name="FK_Products_Brand" Association="SHOPModel.FK_Products_Brand">
+      <End Role="Brand" EntitySet="Brand" />
+      <End Role="Products" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductImg_Products" Association="SHOPModel.FK_ProductImg_Products">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="ProductImg" EntitySet="ProductImg" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Products_ProductTypeS" Association="SHOPModel.FK_Products_ProductTypeS">
+      <End Role="ProductTypeS" EntitySet="ProductTypeS" />
+      <End Role="Products" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductTypeS_To_ProductTypeF" Association="SHOPModel.FK_ProductTypeS_To_ProductTypeF">
+      <End Role="ProductTypeF" EntitySet="ProductTypeF" />
+      <End Role="ProductTypeS" EntitySet="ProductTypeS" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Admin">
+    <Key>
+      <PropertyRef Name="AdminID" />
+    </Key>
+    <Property Name="AdminID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="AdminName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="AdminPwd" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Brand">
+    <Key>
+      <PropertyRef Name="BrandId" />
+    </Key>
+    <Property Name="BrandId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="BrandName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Promoted" Type="Boolean" />
+    <NavigationProperty Name="Products" Relationship="SHOPModel.FK_Products_Brand" FromRole="Brand" ToRole="Products" />
+  </EntityType>
+  <EntityType Name="ProductImg">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductID" Type="Int32" Nullable="false" />
+    <Property Name="ImgData" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+    <Property Name="ImgMimeType" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+    <NavigationProperty Name="Products" Relationship="SHOPModel.FK_ProductImg_Products" FromRole="ProductImg" ToRole="Products" />
+  </EntityType>
+  <EntityType Name="Products">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="TypeID" Type="Int32" Nullable="false" />
+    <Property Name="BrandID" Type="Int32" Nullable="false" />
+    <Property Name="ProName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Description" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
+    <Property Name="Attribute" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
+    <Property Name="Overview" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
+    <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Promotion" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="ImgData" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="ImgMimeType" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <NavigationProperty Name="Brand" Relationship="SHOPModel.FK_Products_Brand" FromRole="Products" ToRole="Brand" />
+    <NavigationProperty Name="ProductImg" Relationship="SHOPModel.FK_ProductImg_Products" FromRole="Products" ToRole="ProductImg" />
+    <NavigationProperty Name="ProductTypeS" Relationship="SHOPModel.FK_Products_ProductTypeS" FromRole="Products" ToRole="ProductTypeS" />
+  </EntityType>
+  <EntityType Name="ProductType">
+    <Key>
+      <PropertyRef Name="TypeID" />
+    </Key>
+    <Property Name="TypeID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="TypeName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="SupID" Type="Int32" />
+    <Property Name="Note" Type="String" MaxLength="200" Unicode="true" FixedLength="false" />
+    <Property Name="Promoted" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="ProductTypeF">
+    <Key>
+      <PropertyRef Name="TypeId" />
+    </Key>
+    <Property Name="TypeId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="TypeName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Note" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="ProductTypeS" Relationship="SHOPModel.FK_ProductTypeS_To_ProductTypeF" FromRole="ProductTypeF" ToRole="ProductTypeS" />
+  </EntityType>
+  <EntityType Name="ProductTypeS">
+    <Key>
+      <PropertyRef Name="TypeId" />
+    </Key>
+    <Property Name="TypeId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="TypeName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="SupID" Type="Int32" Nullable="false" />
+    <Property Name="Promoted" Type="Boolean" />
+    <Property Name="Note" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Products" Relationship="SHOPModel.FK_Products_ProductTypeS" FromRole="ProductTypeS" ToRole="Products" />
+    <NavigationProperty Name="ProductTypeF" Relationship="SHOPModel.FK_ProductTypeS_To_ProductTypeF" FromRole="ProductTypeS" ToRole="ProductTypeF" />
+  </EntityType>
+  <EntityType Name="vw_Product">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="typeid" />
+      <PropertyRef Name="brandid" />
+      <PropertyRef Name="proName" />
+      <PropertyRef Name="BrandName" />
+      <PropertyRef Name="TypeName" />
+      <PropertyRef Name="SupID" />
+      <PropertyRef Name="SupTypeName" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="typeid" Type="Int32" Nullable="false" />
+    <Property Name="brandid" Type="Int32" Nullable="false" />
+    <Property Name="proName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="BrandName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="TypeName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="SupID" Type="Int32" Nullable="false" />
+    <Property Name="SupTypeName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK_Products_Brand">
+    <End Role="Brand" Type="SHOPModel.Brand" Multiplicity="1" />
+    <End Role="Products" Type="SHOPModel.Products" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Brand">
+        <PropertyRef Name="BrandId" />
+      </Principal>
+      <Dependent Role="Products">
+        <PropertyRef Name="BrandID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductImg_Products">
+    <End Role="Products" Type="SHOPModel.Products" Multiplicity="1" />
+    <End Role="ProductImg" Type="SHOPModel.ProductImg" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ProductImg">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Products_ProductTypeS">
+    <End Role="ProductTypeS" Type="SHOPModel.ProductTypeS" Multiplicity="1" />
+    <End Role="Products" Type="SHOPModel.Products" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductTypeS">
+        <PropertyRef Name="TypeId" />
+      </Principal>
+      <Dependent Role="Products">
+        <PropertyRef Name="TypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductTypeS_To_ProductTypeF">
+    <End Role="ProductTypeF" Type="SHOPModel.ProductTypeF" Multiplicity="1" />
+    <End Role="ProductTypeS" Type="SHOPModel.ProductTypeS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductTypeF">
+        <PropertyRef Name="TypeId" />
+      </Principal>
+      <Dependent Role="ProductTypeS">
+        <PropertyRef Name="SupID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

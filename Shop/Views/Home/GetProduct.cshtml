@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Shop.Models.Products>
+@{
+    ViewBag.Title = "商品列表";
+}
+<style>
+    img {
+    width:190px;
+    height:220px;
+    }
+</style>
+<!-- 商品列表 -->
+<div id="jnProduct">
+    <div id="jnProductTab">
+        <h2 title="商品列表">商品列表</h2>
+    </div>
+    <div id="jnProductContent">
+        <ul>
+            @foreach (var pro in Model)
+            {
+                <li>
+                    <a href="#" class="JS_live">
+                        <img alt="@pro.ProName" src="@Url.Content("~/Admin/GetProductImg/" + pro.Id)" /></a>
+                    <span>@Html.ActionLink(pro.ProName, "Detail", new { id = pro.Id })</span>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+

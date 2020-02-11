@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SHOPModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="SHOPModelStoreContainer">
+    <EntitySet Name="Admin" EntityType="SHOPModel.Store.Admin" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Brand" EntityType="SHOPModel.Store.Brand" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ProductImg" EntityType="SHOPModel.Store.ProductImg" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Products" EntityType="SHOPModel.Store.Products" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ProductType" EntityType="SHOPModel.Store.ProductType" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ProductTypeF" EntityType="SHOPModel.Store.ProductTypeF" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ProductTypeS" EntityType="SHOPModel.Store.ProductTypeS" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="vw_Product" EntityType="SHOPModel.Store.vw_Product" store:Type="Views" store:Schema="dbo" store:Name="vw_Product">
+      <DefiningQuery>SELECT 
+      [vw_Product].[id] AS [id], 
+      [vw_Product].[typeid] AS [typeid], 
+      [vw_Product].[brandid] AS [brandid], 
+      [vw_Product].[proName] AS [proName], 
+      [vw_Product].[BrandName] AS [BrandName], 
+      [vw_Product].[TypeName] AS [TypeName], 
+      [vw_Product].[SupID] AS [SupID], 
+      [vw_Product].[SupTypeName] AS [SupTypeName]
+      FROM [dbo].[vw_Product] AS [vw_Product]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_ProductImg_Products" Association="SHOPModel.Store.FK_ProductImg_Products">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="ProductImg" EntitySet="ProductImg" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Products_Brand" Association="SHOPModel.Store.FK_Products_Brand">
+      <End Role="Brand" EntitySet="Brand" />
+      <End Role="Products" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Products_ProductTypeS" Association="SHOPModel.Store.FK_Products_ProductTypeS">
+      <End Role="ProductTypeS" EntitySet="ProductTypeS" />
+      <End Role="Products" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductTypeS_To_ProductTypeF" Association="SHOPModel.Store.FK_ProductTypeS_To_ProductTypeF">
+      <End Role="ProductTypeF" EntitySet="ProductTypeF" />
+      <End Role="ProductTypeS" EntitySet="ProductTypeS" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Admin">
+    <Key>
+      <PropertyRef Name="AdminID" />
+    </Key>
+    <Property Name="AdminID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="AdminName" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="AdminPwd" Type="nvarchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Brand">
+    <Key>
+      <PropertyRef Name="BrandId" />
+    </Key>
+    <Property Name="BrandId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="BrandName" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Promoted" Type="bit" />
+  </EntityType>
+  <EntityType Name="ProductImg">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="ProductID" Type="int" Nullable="false" />
+    <Property Name="ImgData" Type="varbinary(max)" Nullable="false" />
+    <Property Name="ImgMimeType" Type="varchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Products">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TypeID" Type="int" Nullable="false" />
+    <Property Name="BrandID" Type="int" Nullable="false" />
+    <Property Name="ProName" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Description" Type="nvarchar" MaxLength="500" />
+    <Property Name="Attribute" Type="nvarchar" MaxLength="500" />
+    <Property Name="Overview" Type="nvarchar" MaxLength="500" />
+    <Property Name="Price" Type="numeric" Scale="2" />
+    <Property Name="Promotion" Type="numeric" Scale="2" />
+    <Property Name="ImgData" Type="varbinary(max)" />
+    <Property Name="ImgMimeType" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="ProductType">
+    <Key>
+      <PropertyRef Name="TypeID" />
+    </Key>
+    <Property Name="TypeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TypeName" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="SupID" Type="int" />
+    <Property Name="Note" Type="nvarchar" MaxLength="200" />
+    <Property Name="Promoted" Type="bit" />
+  </EntityType>
+  <EntityType Name="ProductTypeF">
+    <Key>
+      <PropertyRef Name="TypeId" />
+    </Key>
+    <Property Name="TypeId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TypeName" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Note" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="ProductTypeS">
+    <Key>
+      <PropertyRef Name="TypeId" />
+    </Key>
+    <Property Name="TypeId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TypeName" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="SupID" Type="int" Nullable="false" />
+    <Property Name="Promoted" Type="bit" />
+    <Property Name="Note" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <!--生成过程中发现错误:
+      警告 6002: 表/视图“SHOP.dbo.vw_Product”未定义主键。已推断出该键，并将定义创建为只读的表/视图。
+      -->
+  <EntityType Name="vw_Product">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="typeid" />
+      <PropertyRef Name="brandid" />
+      <PropertyRef Name="proName" />
+      <PropertyRef Name="BrandName" />
+      <PropertyRef Name="TypeName" />
+      <PropertyRef Name="SupID" />
+      <PropertyRef Name="SupTypeName" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="typeid" Type="int" Nullable="false" />
+    <Property Name="brandid" Type="int" Nullable="false" />
+    <Property Name="proName" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="BrandName" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="TypeName" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="SupID" Type="int" Nullable="false" />
+    <Property Name="SupTypeName" Type="nvarchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK_ProductImg_Products">
+    <End Role="Products" Type="SHOPModel.Store.Products" Multiplicity="1" />
+    <End Role="ProductImg" Type="SHOPModel.Store.ProductImg" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ProductImg">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Products_Brand">
+    <End Role="Brand" Type="SHOPModel.Store.Brand" Multiplicity="1" />
+    <End Role="Products" Type="SHOPModel.Store.Products" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Brand">
+        <PropertyRef Name="BrandId" />
+      </Principal>
+      <Dependent Role="Products">
+        <PropertyRef Name="BrandID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Products_ProductTypeS">
+    <End Role="ProductTypeS" Type="SHOPModel.Store.ProductTypeS" Multiplicity="1" />
+    <End Role="Products" Type="SHOPModel.Store.Products" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductTypeS">
+        <PropertyRef Name="TypeId" />
+      </Principal>
+      <Dependent Role="Products">
+        <PropertyRef Name="TypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductTypeS_To_ProductTypeF">
+    <End Role="ProductTypeF" Type="SHOPModel.Store.ProductTypeF" Multiplicity="1" />
+    <End Role="ProductTypeS" Type="SHOPModel.Store.ProductTypeS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductTypeF">
+        <PropertyRef Name="TypeId" />
+      </Principal>
+      <Dependent Role="ProductTypeS">
+        <PropertyRef Name="SupID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

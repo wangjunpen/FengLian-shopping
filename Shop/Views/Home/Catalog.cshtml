@@ -1,0 +1,54 @@
+﻿@model Shop.Models.CatalogViewModel
+<script type="text/javascript">
+    $(function () {
+        $(".jnCatainfo .promoted").append('<s class="hot"></s>');
+    })
+</script>
+<h2 title="商品分类">商品分类</h2>
+<div class="jnCatainfo">
+    <h3>推荐品牌</h3>
+    <ul>
+        @if (Model != null)
+        {
+            if (Model.BrandList != null)
+            {
+                foreach (var br in Model.BrandList)
+                {
+                    if (br.Promoted.HasValue && br.Promoted.Value)
+                    {
+            <li>@Html.ActionLink(br.BrandName, "GetProduct", new { bid = br.BrandId, tid = 0 }, new { @class = "promoted" })</li>
+                    }
+                    else
+                    {
+            <li>@Html.ActionLink(br.BrandName, "GetProduct", new { bid = br.BrandId, tid = 0 })</li>
+                    }
+                }
+            }
+        }
+    </ul>
+    <br class="clear" />
+    @if (Model != null)
+    {
+        if (Model.ProductTypeList != null)
+        {
+            foreach (var pf in Model.ProductTypeList)
+            {
+        <h3>@pf.TypeName</h3>
+        <ul>
+            @foreach (var ps in pf.ProductTypeS)
+            {
+                if (ps.Promoted.HasValue && ps.Promoted.Value)
+                {
+                <li>@Html.ActionLink(ps.TypeName, "GetProduct", new { bid = 0, tid = ps.TypeId }, new { @class = "promoted" })</li>
+                }
+                else
+                {
+                <li>@Html.ActionLink(ps.TypeName, "GetProduct", new { bid = 0, tid = ps.TypeId })</li>
+                }
+            }
+        </ul>
+        <br class="clear" />
+            }
+        }
+    }
+</div>
